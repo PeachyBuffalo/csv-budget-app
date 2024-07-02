@@ -9,6 +9,8 @@ use App\Livewire\Auth\Passwords\Reset;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\Verify;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\UploadTransactions;
+use App\Livewire\Transactions;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,3 +56,12 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', LogoutController::class)
         ->name('logout');
 });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/upload-transactions', UploadTransactions::class)->name('upload-transactions');
+    Route::get('/transactions', Transactions::class)->name('transactions');
+});
+
