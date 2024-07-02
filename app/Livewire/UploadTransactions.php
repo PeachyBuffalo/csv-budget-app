@@ -5,14 +5,15 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class UploadTransactions extends Component
 {
     use WithFileUploads;
 
-    public $file;
+    public ?\Illuminate\Http\UploadedFile $file = null;
 
-    public function save()
+    public function save(): RedirectResponse
     {
         $this->validate([
             'file' => 'required|mimes:csv,txt',
@@ -27,7 +28,7 @@ class UploadTransactions extends Component
         return redirect()->route('dashboard');
     }
 
-    public function parseCSV($path)
+    public function parseCSV(string $path): void
     {
         if (($handle = fopen($path, 'r')) !== false) {
             while (($data = fgetcsv($handle, 1000, ',')) !== false) {
@@ -41,8 +42,7 @@ class UploadTransactions extends Component
             fclose($handle);
         }
     }
-
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.upload-transactions');
     }
