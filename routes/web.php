@@ -45,3 +45,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/upload-transactions', UploadTransactions::class)->name('upload-transactions');
     Route::get('/transactions', Transactions::class)->name('transactions');
 });
+
+Route::domain('{subdomain}.site.com')
+    ->group(base_path('routes/subdomain.php'));
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
